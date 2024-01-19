@@ -1,3 +1,5 @@
+INCOMPLETE PROJECT - STILL IN PROGRESS
+
 # QuizMakerApp README
 
 ## Overview
@@ -105,3 +107,87 @@ Functionality:** Removes the selected answer both from the XML file and the UI, 
 ## Application Design
 
 Each function in `QuizMakerApp` and `QuizEditor` is meticulously designed to handle specific aspects of the application, from creating and positioning UI elements to managing data operations. The effective use of the `tkinter` library for GUI components and `xml.etree.ElementTree` for XML file handling makes this application a prime example of a simple yet functional GUI application in Python. The structured and modular approach enhances maintainability and scalability.
+
+My problem:
+
+My python quiz app produces this syntax:
+<?xml version='1.0' encoding='utf-8'?>
+<quiz name="fsb"><question prompt="fewwe"><answers><answer text="cd" correct="yes" /></answers><answer correct="yes">gfs</answer><answer>v bd</answer></question><question prompt="gs"><answers /></question></quiz>
+
+
+when it should be like:
+<?xml version="1.0" encoding="utf-8"?>
+<quiz name="Physics fix" category="Physics">
+<question prompt="Potential energy = Mass x Small gravity x _.">
+<answer>Speed</answer>
+<answer>Volume</answer>
+<answer>Width</answer>
+<answer correct="yes">Height</answer>
+</question>
+<question prompt="An engines input temperature =">
+<answer>Work - Exhaust</answer>
+<answer>Work x Exhaust</answer>
+<answer>Work / Exhaust</answer>
+<answer correct="yes">Work + Exhaust</answer>
+</question>
+<question prompt="Power =">
+<answer correct="yes">Energy / Time</answer>
+<answer>Force / Time</answer>
+</question>
+</quiz>
+
+
+LOOK AT UPLOADED PICS TO SEE PROBLEM MORE 
+
+Possible fix:
+	•	XML declaration uses double quotes ("), e.g., <?xml version="1.0" encoding="utf-8"?>.
+	•	Each <question> element directly contains <answer> elements.
+	•	The text for each answer is the text content of the <answer> element.
+	•	If an answer is correct, it has an attribute correct="yes"; otherwise, no attribute is present.
+	•	The structure is consistent and clean, with no empty or unnecessary elements.
+
+
+ALSO LOOK OUTSIDE OF save_question TO FIND OUT WHAT IS CAUSING IT TO MAKE <answers> when it should just be <answer>.
+
+Elaboration:
+Based on our discussion, the main issue you're facing is implementing a feature in your quiz application where each question can have multiple answers, with one or more of them potentially marked as correct. The application needs to save this data in a specific XML format, where each <question> element directly contains multiple <answer> elements, and some of these <answer> elements may have a correct="yes" attribute.
+The key challenges are:
+		Adhering to the XML Structure: You require a specific XML structure where <answer> elements are direct children of <question> elements, without an intermediate <answers> container. This structure needs to be correctly generated and saved by your application.
+		Multiple Choice Functionality: Your application must allow the creation and editing of multiple answers for each question, with the capability to mark any of these answers as correct.
+		Saving and Loading Data: The application should correctly save the quiz data in the desired XML format and be able to load and display this data for editing purposes.
+		UI Interaction: Ensuring that the user interface correctly reflects these functionalities, allowing users to add, edit, and delete answers, and to mark them as correct as needed.
+To address this issue, the code for your QuizEditor class needs to carefully manage the creation, display, editing, and saving of questions and their answers, respecting the XML structure and providing a user-friendly way to handle multiple-choice questions.
+
+Based on the code and the information you've provided, the main issue appears to be related to how your application is handling the creation and saving of quiz questions and their multiple-choice answers in the XML file. Specifically:
+		XML Structure for Questions and Answers: Your application needs to handle the XML structure correctly, especially how questions and answers are stored and retrieved. It seems that there might be inconsistencies in how the <answer> elements are managed, particularly with the presence or absence of an <answers> container element.
+		Saving and Loading Data: The logic in the save_question and display_question_editor methods appears to be a focal point of the problem. These methods must correctly save each question and its associated answers to the XML file and then load them accurately for editing.
+		Handling Multiple Choice Answers: There might be issues in how multiple choice answers are being handled, particularly in how they are displayed, edited, and saved in the quiz editor. This includes correctly identifying and saving the correct answer among the options.
+		UI and Event Handling: The application's user interface and event handling logic might also be contributing to the problem, especially in how different components (like the list of questions and answers) are updated and interact with each other.
+To resolve these issues, focus on:
+	•	Ensuring the XML structure is correctly formed without unnecessary elements.
+	•	Verifying that the saving and loading logic for questions and answers is robust and handles all cases.
+	•	Testing the application thoroughly to identify any inconsistencies or bugs in the UI or the underlying logic.
+
+Based on your feedback and the issues encountered with the provided code, your main issue appears to be related to the functionality of handling multiple choice questions in your quiz application. Specifically, there are challenges in:
+		Adding New Multiple Choice Answers: Your application needs a reliable method to add new answer options to a question, ensuring that they are correctly displayed and saved.
+		Editing Existing Answers: The application should allow for the editing of existing answers, including changing the answer text and marking an answer as correct.
+		Deleting Answers: You should be able to delete any unwanted answers from a question.
+		Saving Changes: All changes made to the questions and answers, including additions, edits, and deletions, need to be correctly saved to the XML file, adhering to the desired format (<answer></answer> tags without an <answers> container).
+		Correct XML Syntax: The application must generate the correct XML structure for multiple choice questions as specified, without using an <answers> container and ensuring the correct="yes" attribute is only added to the correct answer.
+		User Interface Functionality: Ensuring the UI elements (like buttons, text fields, etc.) properly interact with the backend logic to reflect these changes.
+To resolve these issues, a thorough review and possibly a refactor of the relevant parts of your code are necessary. This includes methods for adding, editing, and deleting answers, as well as the method responsible for saving the quiz to the XML file.
+If there are specific errors or behaviors that are occurring which haven't been addressed, please provide more details so that the solution can be more accurately tailored to your needs.
+
+
+The main issue in your application, as per the provided code and your descriptions, seems to be related to the XML structure generated for the quizzes. Specifically, the structure of the XML being generated doesn't match the desired format you've outlined. Here are the key points:
+		Unwanted <answers> Tag: The code was initially creating an <answers> container element within each <question> element. This container was not required according to your desired XML structure.
+		Incorrect Handling of Answer Text: The code was setting the answer text as an attribute (text="...") of the <answer> elements, whereas your desired format requires the answer text to be the text content of these elements.
+		Inconsistent XML Declaration: The XML declaration was using single quotes (') instead of the desired double quotes (").
+To address these issues, the save_question method was revised to:
+	•	Directly append answer elements to the question element, instead of using an answers container.
+	•	Set the text of each answer as the text content of the answer elements.
+	•	Include the correct="yes" attribute only for the correct answers.
+Additionally, the save_quiz method was updated to manually write the XML declaration with double quotes.
+These changes should ensure the generated XML files conform to the specified structure, suitable for your quiz application's requirements.
+
+Remind me to DOCUMENT my actions.
