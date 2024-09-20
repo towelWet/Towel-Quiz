@@ -1,10 +1,13 @@
 # Towel-Quiz
 
 Here's the quiz app:
+
 <img width="1368" alt="Screen Shot 2024-09-20 at 4 22 02 PM" src="https://github.com/user-attachments/assets/00462569-7628-488f-907d-af43859e6ca5">
 
 ## Quiz Folder Structure
-The pic below shows quiz location structure, and the .txt file will give more clarity.
+The pic below shows quiz location structure, and the .txt file will give more clarity:
+
+
 <img width="292" alt="Screen Shot 2024-09-20 at 4 19 23 PM" src="https://github.com/user-attachments/assets/af9c01ef-e00f-404a-a676-5e4ab00a4652">
 
 ## Overview
